@@ -1,1 +1,18 @@
-<p>product-card works!</p>
+<div class="product-image">
+  <img src="https://api.fnkr.net/testimg/150x200/DDDDDD/999999/?text=img" alt="產品圖片" />
+</div>
+
+<div class="product-content">
+  <h3 class="product-title">{{ title() }}</h3>
+  <p class="product-authors">{{ authors() }}</p>
+
+  <div class="product-meta">
+    <span class="publisher">{{ publisher() }}</span>
+    <span class="price">${{ price() | number: '1.2-2' }}</span>
+  </div>
+
+  <div class="button-group">
+    <button type="button" class="details-btn">明細</button>
+    <button type="button" class="add-to-cart">加入購物車</button>
+  </div>
+</div>
