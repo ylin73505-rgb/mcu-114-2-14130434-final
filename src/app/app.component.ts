@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ProductCardComponent } from './product-card/product-card.component';
+import { HardComponent } from './hard/hard.component';
 
 interface Product {
   title: string;
@@ -10,7 +11,7 @@ interface Product {
 
 @Component({
   selector: 'app-root',
-  imports: [ProductCardComponent],
+  imports: [ProductCardComponent, HardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

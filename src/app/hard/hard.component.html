@@ -1,0 +1,13 @@
+<div class="header-container">
+  <div class="header-top">
+    <h1 class="header-title">電子商城</h1>
+    <div class="button-group">
+      <button class="list-btn">產品清單</button>
+      <div class="cart-text">
+        購物車 @if (cartCount() > 0) {
+        <span class="cart-badge">{{ cartCount() }}</span>
+        }
+      </div>
+    </div>
+  </div>
+</div>
