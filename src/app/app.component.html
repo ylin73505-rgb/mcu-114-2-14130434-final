@@ -1,1 +1,10 @@
-<app-product-card></app-product-card>
+<div class="products-container">
+  @for (product of products; track product.title) {
+  <app-product-card
+    [title]="product.title"
+    [authors]="product.authors"
+    [publisher]="product.publisher"
+    [price]="product.price"
+  ></app-product-card>
+  }
+</div>
