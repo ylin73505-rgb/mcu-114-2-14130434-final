@@ -1,18 +1,25 @@
 import { Injectable, OnDestroy, signal } from '@angular/core';
 
-const STORAGE_KEY = 'cart.count';
+const STORAGE_KEY = 'cart.items';
+
+interface CartItem {
+  [key: string]: number; // key: product title, value: quantity
+}
 
 @Injectable({ providedIn: 'root' })
 export class CartService implements OnDestroy {
+  private readonly cartItems = signal<CartItem>({});
   readonly cartCount = signal<number>(0);
 
   constructor() {
     // initialize from localStorage if available
     try {
       const raw = typeof window === 'undefined' ? null : window.localStorage.getItem(STORAGE_KEY);
-      const initial = raw ? parseInt(raw, 10) || 0 : 0;
-      this.cartCount.set(initial);
+      const initial = raw ? JSON.parse(raw) : {};
+      this.cartItems.set(initial);
+      this.updateCartCount();
     } catch {
+      this.cartItems.set({});
       this.cartCount.set(0);
     }
 
@@ -29,23 +36,31 @@ export class CartService implements OnDestroy {
 
   private onStorage = (e: StorageEvent) => {
     if (e.key === STORAGE_KEY) {
-      const val = e.newValue ? parseInt(e.newValue, 10) || 0 : 0;
-      this.cartCount.set(val);
+      const val = e.newValue ? JSON.parse(e.newValue) : {};
+      this.cartItems.set(val);
+      this.updateCartCount();
     }
   };
 
-  addItem(): void {
-    // update signal and persist
-    this.cartCount.update((count) => {
-      const next = count + 1;
+  private updateCartCount(): void {
+    const items = this.cartItems();
+    const uniqueCount = Object.keys(items).length;
+    this.cartCount.set(uniqueCount);
+  }
+
+  addItem(productTitle: string): void {
+    this.cartItems.update((items) => {
+      const updated = { ...items };
+      updated[productTitle] = (updated[productTitle] || 0) + 1;
       try {
         if (typeof window !== 'undefined') {
-          window.localStorage.setItem(STORAGE_KEY, String(next));
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
         }
       } catch {
         // ignore storage errors
       }
-      return next;
+      this.updateCartCount();
+      return updated;
     });
   }
 
@@ -53,10 +68,14 @@ export class CartService implements OnDestroy {
     this.cartCount.set(n);
     try {
       if (typeof window !== 'undefined') {
-        window.localStorage.setItem(STORAGE_KEY, String(n));
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(this.cartItems()));
       }
     } catch {
       // ignore
     }
+  }
+
+  getItems(): CartItem {
+    return this.cartItems();
   }
 }

@@ -26,7 +26,7 @@ export class BookEntryComponent {
   });
 
   addToCart(): void {
-    this.cartService.addItem();
+    this.cartService.addItem(this.details.title);
   }
 
   private readDetails(): BookDetails {
