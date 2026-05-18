@@ -29,7 +29,7 @@ export class BookEntryComponent {
   readonly currentPage = this.readPage();
 
   addToCart(): void {
-    this.cartService.addItem(this.details.title);
+    this.cartService.addItem(this.details.title, this.details.price);
   }
 
   goHome(): void {

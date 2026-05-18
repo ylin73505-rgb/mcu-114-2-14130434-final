@@ -2,8 +2,13 @@ import { Injectable, OnDestroy, signal } from '@angular/core';
 
 const STORAGE_KEY = 'cart.items';
 
+interface CartItemEntry {
+  quantity: number;
+  price: number;
+}
+
 interface CartItem {
-  [key: string]: number; // key: product title, value: quantity
+  [key: string]: CartItemEntry;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -12,7 +17,6 @@ export class CartService implements OnDestroy {
   readonly cartCount = signal<number>(0);
 
   constructor() {
-    // initialize from localStorage if available
     try {
       const raw = typeof window === 'undefined' ? null : window.localStorage.getItem(STORAGE_KEY);
       const initial = raw ? JSON.parse(raw) : {};
@@ -48,27 +52,73 @@ export class CartService implements OnDestroy {
     this.cartCount.set(uniqueCount);
   }
 
-  addItem(productTitle: string): void {
+  addItem(productTitle: string, price: number): void {
     this.cartItems.update((items) => {
-      const updated = { ...items };
-      updated[productTitle] = (updated[productTitle] || 0) + 1;
+      const updated = { ...items } as CartItem;
+      const existing = updated[productTitle];
+      if (existing) {
+        updated[productTitle] = { quantity: existing.quantity + 1, price: existing.price };
+      } else {
+        updated[productTitle] = { quantity: 1, price };
+      }
       try {
         if (typeof window !== 'undefined') {
           window.localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
         }
       } catch {
-        // ignore storage errors
+        // ignore
       }
       this.updateCartCount();
       return updated;
     });
   }
 
-  setCount(n: number): void {
-    this.cartCount.set(n);
+  updateQuantity(productTitle: string, quantity: number): void {
+    this.cartItems.update((items) => {
+      const updated = { ...items } as CartItem;
+      if (updated[productTitle]) {
+        if (quantity <= 0) {
+          delete updated[productTitle];
+        } else {
+          updated[productTitle] = { quantity, price: updated[productTitle].price };
+        }
+      }
+      try {
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        }
+      } catch {
+        // ignore
+      }
+      this.updateCartCount();
+      return updated;
+    });
+  }
+
+  removeItem(productTitle: string): void {
+    this.cartItems.update((items) => {
+      const updated = { ...items } as CartItem;
+      if (updated[productTitle]) {
+        delete updated[productTitle];
+      }
+      try {
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        }
+      } catch {
+        // ignore
+      }
+      this.updateCartCount();
+      return updated;
+    });
+  }
+
+  clearCart(): void {
+    this.cartItems.set({});
+    this.updateCartCount();
     try {
       if (typeof window !== 'undefined') {
-        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(this.cartItems()));
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify({}));
       }
     } catch {
       // ignore

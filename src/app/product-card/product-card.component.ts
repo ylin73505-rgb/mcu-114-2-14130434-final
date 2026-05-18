@@ -35,6 +35,6 @@ export class ProductCardComponent {
   }
 
   addToCart(): void {
-    this.cartService.addItem(this.title());
+    this.cartService.addItem(this.title(), this.price());
   }
 }
