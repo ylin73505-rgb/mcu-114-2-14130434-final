@@ -2,8 +2,8 @@
   <div class="header-top">
     <h1 class="header-title">電子商城</h1>
     <div class="button-group">
-      <button class="list-btn">產品清單</button>
-      <button class="cart-btn" (click)="goToCart()">
+      <button [class.list-btn]="!isShoppingPage" [class.list-btn-swap]="isShoppingPage" (click)="goToHome()">產品清單</button>
+      <button [class.cart-btn]="!isShoppingPage" [class.cart-btn-swap]="isShoppingPage" (click)="goToCart()">
         購物車 @if (cartService.cartCount() > 0) {
         <span class="cart-badge">{{ cartService.cartCount() }}</span>
         }

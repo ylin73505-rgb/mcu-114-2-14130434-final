@@ -2,10 +2,11 @@ import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CartService } from '../cart.service';
+import { HardComponent } from '../hard/hard.component';
 
 @Component({
   selector: 'app-shopping',
-  imports: [CommonModule],
+  imports: [CommonModule, HardComponent],
   templateUrl: './shopping.component.html',
   styleUrl: './shopping.component.scss',
 })

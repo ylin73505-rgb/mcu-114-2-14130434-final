@@ -13,7 +13,15 @@ export class HardComponent {
   readonly cartService = inject(CartService);
   private readonly router = inject(Router);
 
+  get isShoppingPage(): boolean {
+    return this.router.url === '/shopping';
+  }
+
   goToCart(): void {
     this.router.navigate(['/shopping']);
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/']);
   }
 }
