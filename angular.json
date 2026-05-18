@@ -89,6 +89,34 @@
                 "input": "src/book.html",
                 "output": "book.html"
               },
+              "assets": [
+                {
+                  "glob": "**/*",
+                  "input": "public"
+                }
+              ],
+              "styles": [
+                "src/styles.scss"
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+            "shopping": {
+              "browser": "src/main.shopping.ts",
+              "index": {
+                "input": "src/shopping.html",
+                "output": "shopping.html"
+              },
+              "assets": [
+                {
+                  "glob": "**/*",
+                  "input": "public"
+                }
+              ],
+              "styles": [
+                "src/styles.scss"
+              ],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
@@ -107,6 +135,9 @@
             },
             "book": {
               "buildTarget": "mcu-114-2-14130434-final:build:book"
+            },
+            "shopping": {
+              "buildTarget": "mcu-114-2-14130434-final:build:shopping"
             }
           },
           "defaultConfiguration": "development"

@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { CartService } from '../cart.service';
 
 @Component({
@@ -10,4 +11,9 @@ import { CartService } from '../cart.service';
 })
 export class HardComponent {
   readonly cartService = inject(CartService);
+  private readonly router = inject(Router);
+
+  goToCart(): void {
+    this.router.navigate(['/shopping']);
+  }
 }
