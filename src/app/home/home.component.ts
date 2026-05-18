@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal, inject, effect } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { HardComponent } from '../hard/hard.component';
 
@@ -19,6 +20,8 @@ interface Product {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
+  private readonly activatedRoute = inject(ActivatedRoute);
+
   readonly products: Product[] = [
     { title: 'A 產品', authors: '作者 A、作者 B、作者 C', publisher: '博碩文化', price: 1580 },
     { title: 'B 產品', authors: '作者 A、作者 B、作者 C', publisher: '博碩文化', price: 1580 },
@@ -45,5 +48,16 @@ export class HomeComponent {
 
   setPage(page: number): void {
     this.currentPage.set(page);
+  }
+
+  constructor() {
+    effect(() => {
+      this.activatedRoute.queryParams.subscribe((params) => {
+        const page = Number(params['page']);
+        if (Number.isFinite(page) && page > 0) {
+          this.currentPage.set(page);
+        }
+      });
+    });
   }
 }

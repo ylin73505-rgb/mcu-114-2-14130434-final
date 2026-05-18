@@ -17,16 +17,21 @@ export class ProductCardComponent {
   readonly authors = input('作者 A、作者 B、作者 C');
   readonly publisher = input('博碩文化');
   readonly price = input(1580);
+  readonly currentPage = input<number | null>(null);
 
   viewDetails(): void {
-    this.router.navigate(['/book'], {
-      queryParams: {
-        title: this.title(),
-        authors: this.authors(),
-        publisher: this.publisher(),
-        price: this.price(),
-      },
-    });
+    const queryParams: any = {
+      title: this.title(),
+      authors: this.authors(),
+      publisher: this.publisher(),
+      price: this.price(),
+    };
+
+    if (this.currentPage()) {
+      queryParams.page = this.currentPage();
+    }
+
+    this.router.navigate(['/book'], { queryParams });
   }
 
   addToCart(): void {
