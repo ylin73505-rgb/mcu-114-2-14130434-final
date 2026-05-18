@@ -46,17 +46,16 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "index": {
+              "input": "src/index.html",
+              "output": "index.html"
+            },
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
-              },
-              {
-                "glob": "book.html",
-                "input": "src",
-                "output": "/"
               }
             ],
             "styles": [
@@ -83,6 +82,16 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "book": {
+              "browser": "src/main.book.ts",
+              "index": {
+                "input": "src/book.html",
+                "output": "book.html"
+              },
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -95,6 +104,9 @@
             },
             "development": {
               "buildTarget": "mcu-114-2-14130434-final:build:development"
+            },
+            "book": {
+              "buildTarget": "mcu-114-2-14130434-final:build:book"
             }
           },
           "defaultConfiguration": "development"

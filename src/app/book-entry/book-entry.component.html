@@ -1,0 +1,35 @@
+<header>
+  <app-hard></app-hard>
+</header>
+
+<main class="book-entry-page">
+  <div class="book-card">
+    <div class="product-image">
+      <img src="https://api.fnkr.net/testimg/150x200/DDDDDD/999999/?text=img" alt="產品圖片" />
+    </div>
+
+    <div class="product-content">
+      <h2 class="product-title">{{ details.title }}</h2>
+
+      <div class="product-meta">
+        <div class="meta-row">
+          <span class="label">作者</span>
+          <span class="value">{{ details.authors }}</span>
+        </div>
+        <div class="meta-row">
+          <span class="label">公司</span>
+          <span class="value">{{ details.publisher }}</span>
+        </div>
+        <div class="meta-row">
+          <span class="label">價格</span>
+          <span class="value price">${{ formattedPrice }} <span class="special-tag">特價</span></span>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <a href="/" class="back-link">返回</a>
+        <button type="button" class="add-to-cart" (click)="addToCart()">加入購物車</button>
+      </div>
+    </div>
+  </div>
+</main>

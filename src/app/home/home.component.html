@@ -1,0 +1,37 @@
+<header>
+  <app-hard></app-hard>
+</header>
+
+<div class="main">
+  <div class="top-search">
+    <div class="search-box">
+      <input type="text" class="global-search" placeholder="產品名稱查詢" aria-label="全域搜尋產品" />
+      <button class="search-btn" aria-label="查詢">查詢</button>
+    </div>
+  </div>
+
+  <div class="products-container">
+    @for (product of visibleProducts(); track product.title) {
+    <app-product-card
+      [title]="product.title"
+      [authors]="product.authors"
+      [publisher]="product.publisher"
+      [price]="product.price"
+    ></app-product-card>
+    }
+  </div>
+
+  <div class="pagination-bar" aria-label="分頁導覽">
+    @for (page of pageNumbers(); track page) {
+    <button
+      type="button"
+      class="page-btn"
+      [class.active]="page === currentPage()"
+      [attr.aria-current]="page === currentPage() ? 'page' : null"
+      (click)="setPage(page)"
+    >
+      {{ page }}
+    </button>
+    }
+  </div>
+</div>
