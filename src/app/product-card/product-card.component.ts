@@ -16,6 +16,10 @@ export class ProductCardComponent {
   readonly publisher = input('博碩文化');
   readonly price = input(1580);
 
+  viewDetails(): void {
+    window.location.href = '/book.html';
+  }
+
   addToCart(): void {
     this.cartService.addItem();
   }
