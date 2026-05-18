@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-hard',
@@ -8,5 +9,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './hard.component.scss',
 })
 export class HardComponent {
-  cartCount = signal(0);
+  readonly cartService = inject(CartService);
 }

@@ -1,5 +1,6 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-product-card',
@@ -8,8 +9,14 @@ import { DecimalPipe } from '@angular/common';
   styleUrl: './product-card.component.scss',
 })
 export class ProductCardComponent {
+  private readonly cartService = inject(CartService);
+
   readonly title = input('A 產品');
   readonly authors = input('作者 A、作者 B、作者 C');
   readonly publisher = input('博碩文化');
   readonly price = input(1580);
+
+  addToCart(): void {
+    this.cartService.addItem();
+  }
 }
