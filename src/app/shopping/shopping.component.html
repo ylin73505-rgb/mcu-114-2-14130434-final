@@ -75,7 +75,10 @@
           />
         </label>
 
-        <div class="item-price">${{ item.price | number:'1.2-2' }}</div>
+        <div class="item-price">
+          <div class="unit-price">${{ item.price | number:'1.2-2' }}</div>
+          <div class="line-subtotal">${{ item.subtotal | number:'1.2-2' }}</div>
+        </div>
 
         <button type="button" class="remove-btn" (click)="removeItem(item.title)">刪除</button>
       </article>
