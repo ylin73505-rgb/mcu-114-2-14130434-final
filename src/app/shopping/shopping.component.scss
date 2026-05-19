@@ -1,6 +1,6 @@
 .checkout-grid {
   display: grid;
-  grid-template-columns: 520px minmax(0, 1fr);
+  grid-template-columns: minmax(320px, 520px) minmax(0, 1fr);
   gap: 12px;
   padding: 4px;
   align-items: start;
@@ -79,7 +79,7 @@
 
 .cart-row {
   display: grid;
-  grid-template-columns: 46px 480px 138px 240px 90px;
+  grid-template-columns: 46px minmax(0, 1.8fr) minmax(92px, 0.8fr) minmax(140px, 1fr) auto;
   justify-content: start;
   gap: 0;
   align-items: center;
@@ -114,7 +114,7 @@
 }
 
 .qty-input {
-  width: 100px;
+  width: clamp(72px, 8vw, 100px);
   height: 24px;
   border: 1px solid #b5b5b5;
   border-radius: 1px;
@@ -129,7 +129,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 24px;
+  gap: 12px 16px;
+  flex-wrap: wrap;
   justify-content: flex-end;
 }
 
@@ -257,6 +258,30 @@
   }
 
   .submit-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .field label {
+    width: 100%;
+    text-align: left;
+  }
+
+  .field input {
+    max-width: none;
+  }
+
+  .hint {
     width: 100%;
   }
 }
