@@ -21,7 +21,7 @@ export class CartService implements OnDestroy {
       const raw = typeof window === 'undefined' ? null : window.localStorage.getItem(STORAGE_KEY);
       const initial = raw ? JSON.parse(raw) : {};
       this.cartItems.set(initial);
-      this.updateCartCount();
+      this.updateCartCount(initial);
     } catch {
       this.cartItems.set({});
       this.cartCount.set(0);
@@ -42,12 +42,11 @@ export class CartService implements OnDestroy {
     if (e.key === STORAGE_KEY) {
       const val = e.newValue ? JSON.parse(e.newValue) : {};
       this.cartItems.set(val);
-      this.updateCartCount();
+      this.updateCartCount(val);
     }
   };
 
-  private updateCartCount(): void {
-    const items = this.cartItems();
+  private updateCartCount(items: CartItem): void {
     const uniqueCount = Object.keys(items).length;
     this.cartCount.set(uniqueCount);
   }
@@ -68,7 +67,7 @@ export class CartService implements OnDestroy {
       } catch {
         // ignore
       }
-      this.updateCartCount();
+      this.updateCartCount(updated);
       return updated;
     });
   }
@@ -90,7 +89,7 @@ export class CartService implements OnDestroy {
       } catch {
         // ignore
       }
-      this.updateCartCount();
+      this.updateCartCount(updated);
       return updated;
     });
   }
@@ -108,14 +107,14 @@ export class CartService implements OnDestroy {
       } catch {
         // ignore
       }
-      this.updateCartCount();
+      this.updateCartCount(updated);
       return updated;
     });
   }
 
   clearCart(): void {
     this.cartItems.set({});
-    this.updateCartCount();
+    this.updateCartCount({});
     try {
       if (typeof window !== 'undefined') {
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify({}));

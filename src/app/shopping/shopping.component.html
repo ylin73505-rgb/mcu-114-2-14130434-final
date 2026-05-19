@@ -2,23 +2,53 @@
   <app-hard></app-hard>
 </header>
 
-<main class="checkout-grid">
+<form class="checkout-grid" (submit)="submitOrder($event)">
   <section class="customer">
     <h2>基本資料</h2>
     <div class="field">
-      <label>姓名</label>
-      <input type="text" />
+      <label for="customer-name">姓名</label>
+      <input
+        id="customer-name"
+        type="text"
+        autocomplete="name"
+        required
+        [value]="customerName()"
+        (input)="updateCustomerName(nameInput.value)"
+        #nameInput
+      />
+      @if (!customerName().trim()) {
       <span class="hint">請輸入姓名</span>
+      }
     </div>
     <div class="field">
-      <label>地址</label>
-      <input type="text" />
+      <label for="customer-address">地址</label>
+      <input
+        id="customer-address"
+        type="text"
+        autocomplete="street-address"
+        required
+        [value]="customerAddress()"
+        (input)="updateCustomerAddress(addressInput.value)"
+        #addressInput
+      />
+      @if (!customerAddress().trim()) {
       <span class="hint">請輸入地址</span>
+      }
     </div>
     <div class="field">
-      <label>電話</label>
-      <input type="text" />
+      <label for="customer-phone">電話</label>
+      <input
+        id="customer-phone"
+        type="tel"
+        autocomplete="tel"
+        required
+        [value]="customerPhone()"
+        (input)="updateCustomerPhone(phoneInput.value)"
+        #phoneInput
+      />
+      @if (!customerPhone().trim()) {
       <span class="hint">請輸入電話</span>
+      }
     </div>
   </section>
 
@@ -52,12 +82,10 @@
       }
     </div>
     <div class="cart-summary">
-      <button type="button" class="submit-btn" [disabled]="cartItems().length === 0" (click)="submitOrder()">
-        送出訂單 (${{ total() | number:'1.2-2' }})
-      </button>
+      <button type="submit" class="submit-btn" [disabled]="!canSubmit()">送出訂單 (${{ total() | number:'1.2-2' }})</button>
     </div>
     } @else {
     <p class="empty">購物車目前沒有商品</p>
     }
   </section>
-</main>
+</form>
