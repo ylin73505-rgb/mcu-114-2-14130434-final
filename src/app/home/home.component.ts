@@ -81,7 +81,7 @@ export class HomeComponent {
 
   constructor() {
     // load products from public assets/db.json and map to Product
-    this.http.get<{ products: any[] }>('/assets/db.json').subscribe((data) => {
+    this.http.get<{ products: any[] }>('assets/db.json').subscribe((data) => {
       const mapped: Product[] = (data.products || []).map((p) => ({
         title: p.name,
         authors: Array.isArray(p.authors) ? p.authors.join('、') : String(p.authors || ''),
