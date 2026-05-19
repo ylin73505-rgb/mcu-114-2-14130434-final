@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HardComponent } from '../hard/hard.component';
 import { CartService } from '../cart.service';
 
@@ -20,6 +21,7 @@ interface BookDetails {
 export class BookEntryComponent {
   private readonly cartService = inject(CartService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   readonly details = this.readDetails();
   readonly formattedPrice = this.details.price.toLocaleString('en-US', {
@@ -41,25 +43,31 @@ export class BookEntryComponent {
   }
 
   private readDetails(): BookDetails {
-    const query = typeof window === 'undefined' ? new URLSearchParams() : new URLSearchParams(window.location.search);
-
+    const query = this.route.snapshot.queryParamMap;
     const title = query.get('title') ?? 'A 產品';
     const authors = query.get('authors') ?? '作者 A、作者 B、作者 C';
     const publisher = query.get('publisher') ?? '博碩文化';
-    const priceValue = Number(query.get('price'));
+    const priceValue = this.readNumberParam(query.get('price'));
 
     return {
       title,
       authors,
       publisher,
-      price: Number.isFinite(priceValue) ? priceValue : 1580,
+      price: priceValue ?? 1580,
     };
   }
 
   private readPage(): number {
-    if (typeof window === 'undefined') return 1;
-    const query = new URLSearchParams(window.location.search);
-    const pageValue = Number(query.get('page'));
-    return Number.isFinite(pageValue) && pageValue > 0 ? pageValue : 1;
+    const pageValue = this.readNumberParam(this.route.snapshot.queryParamMap.get('page'));
+    return pageValue && pageValue > 0 ? pageValue : 1;
+  }
+
+  private readNumberParam(rawValue: string | null): number | null {
+    if (rawValue === null || rawValue.trim() === '') {
+      return null;
+    }
+
+    const parsedValue = Number(rawValue);
+    return Number.isFinite(parsedValue) ? parsedValue : null;
   }
 }
