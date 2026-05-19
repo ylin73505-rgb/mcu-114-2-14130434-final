@@ -26,7 +26,7 @@
       "isShow": true,
       "photoUrl": "https://api.fnkr.net/testimg/200x200/DDDDDD/999999/?text=img",
       "createDate": "2023-10-17T00:00:00.000+08:00",
-      "price": 1580
+      "price": 1280
     },
     {
       "id": "3",
@@ -40,7 +40,7 @@
       "isShow": true,
       "photoUrl": "https://api.fnkr.net/testimg/200x200/DDDDDD/999999/?text=img",
       "createDate": "2023-10-17T00:00:00.000+08:00",
-      "price": 1580
+      "price": 8880
     },
     {
       "id": "4",
@@ -54,7 +54,7 @@
       "isShow": true,
       "photoUrl": "https://api.fnkr.net/testimg/200x200/DDDDDD/999999/?text=img",
       "createDate": "2023-10-17T00:00:00.000+08:00",
-      "price": 1580
+      "price": 8888888
     },
     {
       "id": "5",
@@ -68,7 +68,7 @@
       "isShow": true,
       "photoUrl": "https://api.fnkr.net/testimg/200x200/DDDDDD/999999/?text=img",
       "createDate": "2023-10-17T00:00:00.000+08:00",
-      "price": 1580
+      "price": 54321
     },
     {
       "id": "6",
@@ -96,7 +96,7 @@
       "isShow": true,
       "photoUrl": "https://api.fnkr.net/testimg/200x200/DDDDDD/999999/?text=img",
       "createDate": "2023-10-17T00:00:00.000+08:00",
-      "price": 1580
+      "price": 1
     },
     {
       "id": "8",
@@ -110,7 +110,7 @@
       "isShow": true,
       "photoUrl": "https://api.fnkr.net/testimg/200x200/DDDDDD/999999/?text=img",
       "createDate": "2023-10-17T00:00:00.000+08:00",
-      "price": 1580
+      "price": 990
     },
     {
       "id": "9",
@@ -124,7 +124,7 @@
       "isShow": true,
       "photoUrl": "https://api.fnkr.net/testimg/200x200/DDDDDD/999999/?text=img",
       "createDate": "2023-10-17T00:00:00.000+08:00",
-      "price": 1580
+      "price": 320
     },
     {
       "id": "10",
@@ -138,7 +138,7 @@
       "isShow": true,
       "photoUrl": "https://api.fnkr.net/testimg/200x200/DDDDDD/999999/?text=img",
       "createDate": "2023-10-17T00:00:00.000+08:00",
-      "price": 1580
+      "price": 580
     }
   ],
   "$schema": "./node_modules/json-server/schema.json",

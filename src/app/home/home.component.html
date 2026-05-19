@@ -5,8 +5,16 @@
 <div class="main">
   <div class="top-search">
     <div class="search-box">
-      <input type="text" class="global-search" placeholder="產品名稱查詢" aria-label="全域搜尋產品" />
-      <button class="search-btn" aria-label="查詢">查詢</button>
+      <input
+        type="text"
+        class="global-search"
+        placeholder="產品名稱查詢"
+        aria-label="全域搜尋產品"
+        [value]="tempSearchQuery()"
+        (input)="tempSearchQuery.set($event.target.value)"
+        (keydown.enter)="onSearch()"
+      />
+      <button class="search-btn" aria-label="查詢" (click)="onSearch()">查詢</button>
     </div>
   </div>
 

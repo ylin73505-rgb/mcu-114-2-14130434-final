@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, signal, inject, effect } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { HardComponent } from '../hard/hard.component';
 
@@ -15,7 +16,7 @@ interface Product {
 
 @Component({
   selector: 'app-home',
-  imports: [ProductCardComponent, HardComponent],
+  imports: [FormsModule, ProductCardComponent, HardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,22 +24,59 @@ interface Product {
 export class HomeComponent {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
 
   readonly products = signal<Product[]>([]);
+  readonly searchQuery = signal('');
+  readonly tempSearchQuery = signal('');
 
   readonly currentPage = signal(1);
 
-  readonly totalPages = computed(() => Math.max(1, Math.ceil(this.products().length / PRODUCTS_PER_PAGE)));
+  readonly totalPages = computed(() => {
+    const filtered = this.filteredProducts();
+    return Math.max(1, Math.ceil(filtered.length / PRODUCTS_PER_PAGE));
+  });
 
   readonly pageNumbers = computed(() => Array.from({ length: this.totalPages() }, (_, index) => index + 1));
 
+  readonly filteredProducts = computed(() => {
+    const query = this.searchQuery().toLowerCase().trim();
+    if (!query) {
+      return this.products();
+    }
+    return this.products().filter((p) => p.title.toLowerCase().includes(query) || p.authors.toLowerCase().includes(query));
+  });
+
   readonly visibleProducts = computed(() => {
     const startIndex = (this.currentPage() - 1) * PRODUCTS_PER_PAGE;
-    return this.products().slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
+    return this.filteredProducts().slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
   });
 
   setPage(page: number): void {
     this.currentPage.set(page);
+  }
+
+  onSearch(): void {
+    // Apply the search by updating searchQuery
+    this.searchQuery.set(this.tempSearchQuery());
+    const filtered = this.filteredProducts();
+
+    // If only one product matches, navigate to detail page
+    if (filtered.length === 1) {
+      const product = filtered[0];
+      this.router.navigate(['/book'], {
+        queryParams: {
+          title: product.title,
+          authors: product.authors,
+          publisher: product.publisher,
+          price: product.price,
+        },
+      });
+      return;
+    }
+
+    // Otherwise, reset to first page
+    this.currentPage.set(1);
   }
 
   constructor() {
